@@ -1,0 +1,26 @@
+name: Docs Validation Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  validate-docs:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code Repository
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js Environment
+      uses: actions/setup-node@v4
+      with:
+        node-node-version: '20'
+
+    - name: Install Markdown Linting Utility
+      run: npm install -g markdownlint-cli
+
+    - name: Execute Linting Audit on Documentation
+      run: markdownlint 'docs/**/*.md' README.md --disable MD013
